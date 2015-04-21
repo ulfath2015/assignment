@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import org.slf4j.Logger;
@@ -18,8 +16,8 @@ public class FileComparator
 {
 	private Properties props;
 	public static final Logger LOG = LoggerFactory.getLogger(FileComparator.class);
-	private Set<String> namesList1;
-	private Set<String> namesList2;
+	private Set<String> sourceNames;
+	private Set<String> targetNames;
 	
 	public FileComparator(String propFile) {
 		
@@ -29,8 +27,8 @@ public class FileComparator
 
 			if (inputStream != null) {
 				props.load(inputStream);
-				namesList1 = new HashSet<String>(Files.readAllLines(new File(props.get("FILE1").toString()).toPath(),Charset.forName("UTF-8")));
-				namesList2 = new HashSet<String>(Files.readAllLines(new File(props.get("FILE2").toString()).toPath(),Charset.forName("UTF-8")));
+				sourceNames = new HashSet<String>(Files.readAllLines(new File(props.get("FILE1").toString()).toPath(),Charset.forName("UTF-8")));
+				targetNames = new HashSet<String>(Files.readAllLines(new File(props.get("FILE2").toString()).toPath(),Charset.forName("UTF-8")));
 			} 
 			else {
 				throw new FileNotFoundException("property file '" + propFile + "' not found in the classpath");
@@ -48,7 +46,7 @@ public class FileComparator
     	
 	   
 	   Set<String> matchedString = new HashSet<String>();
-    	for( String name : namesList1 ){
+    	for( String name : sourceNames ){
 		    if(compare(name)){
 		    	matchedString.add(name);
 		    }
@@ -65,7 +63,7 @@ public class FileComparator
 	private boolean compare(String sourceName) {
 		
 		String[] sourceNameParts = sourceName.split(" ");
-		for( String targetName : namesList2 ){
+		for( String targetName : targetNames ){
 			
 			boolean result = true;
 			String targetNameParts[] = targetName.split(" ");
@@ -78,7 +76,7 @@ public class FileComparator
 			}
 			
 			if(result){
-				LOG.debug(sourceName + "~=" + targetName ); 
+				LOG.debug(sourceName + " ~= " + targetName ); 
 				return result;
 			}
 		}
