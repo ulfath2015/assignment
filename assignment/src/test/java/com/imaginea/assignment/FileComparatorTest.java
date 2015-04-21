@@ -17,7 +17,7 @@ public class FileComparatorTest {
 	@Test
 	public void findMatchingStringsTest(){
 		
-		assertTrue(fileComparator.findMatchingStrings().size() == 76 );
+		assertTrue(fileComparator.findMatchingStrings().size() > 76 );
 		
 	}
 }

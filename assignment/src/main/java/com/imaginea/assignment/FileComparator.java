@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +16,8 @@ public class FileComparator
 {
 	private Properties props;
 	public static final Logger LOG = LoggerFactory.getLogger(FileComparator.class);
-	File file1,file2;
+	private List<String> namesList1;
+	private List<String> namesList2;
 	
 	public FileComparator(String propFile) throws IOException {
 		
@@ -24,35 +27,54 @@ public class FileComparator
 
 			if (inputStream != null) {
 				props.load(inputStream);
-				file1 = new File(props.get("FILE1").toString());
-				file2 = new File(props.get("FILE2").toString());
+				namesList1 = Files.readAllLines(new File(props.get("FILE1").toString()).toPath(),Charset.forName("UTF-8"));
+				namesList2 = Files.readAllLines(new File(props.get("FILE2").toString()).toPath(),Charset.forName("UTF-8"));
 			} 
 			else {
 				throw new FileNotFoundException("property file '" + propFile + "' not found in the classpath");
 			}
 		}
+		
 	}
 	
 	
     public List<String> findMatchingStrings(){
     	
 	   
-	   List<String> stringList1 = null;
-		List<String> stringList2 = null;
-    	try {
-			stringList1 = FileUtils.readLines(file1, "utf-8");
-			stringList2 = FileUtils.readLines(file2, "utf-8");
-			stringList1.retainAll(stringList2);
-			
-			for( String string : stringList1 ){
-				LOG.debug(string);
-			}
-		} catch (IOException e) {
-			
-			LOG.info("exception occured" + e );
+	   List<String> matchingString = new ArrayList<String>();
+    	for( String name : namesList1 ){
+		    if(compare(name)){
+		    	matchingString.add(name);
+		    }
 		}
-    	return stringList1;
+		
+		LOG.debug("number of matching string :" + matchingString.size());
+    	return namesList1;
     	
     	
     }
+
+
+	private boolean compare(String sourceName) {
+		
+		String[] sourceNameParts = sourceName.split(" ");
+		for( String targetName : namesList2 ){
+			
+			boolean result = true;
+			String targetNameParts[] = targetName.split(" ");
+			int smallerNameLength = sourceNameParts.length > targetNameParts.length ? targetNameParts.length : sourceNameParts.length;
+			for(int i=0;i<smallerNameLength;i++){
+				if(! sourceNameParts[i].equalsIgnoreCase(targetNameParts[i]) ){
+					result = false;
+					break;
+				}
+			}
+			
+			if(result){
+				LOG.debug(sourceName + "~=" + targetName ); 
+				return result;
+			}
+		}
+		return false;
+	}
 }
