@@ -7,8 +7,10 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,10 +18,10 @@ public class FileComparator
 {
 	private Properties props;
 	public static final Logger LOG = LoggerFactory.getLogger(FileComparator.class);
-	private List<String> namesList1;
-	private List<String> namesList2;
+	private Set<String> namesList1;
+	private Set<String> namesList2;
 	
-	public FileComparator(String propFile) throws IOException {
+	public FileComparator(String propFile) {
 		
 		props = new Properties();
 
@@ -27,29 +29,34 @@ public class FileComparator
 
 			if (inputStream != null) {
 				props.load(inputStream);
-				namesList1 = Files.readAllLines(new File(props.get("FILE1").toString()).toPath(),Charset.forName("UTF-8"));
-				namesList2 = Files.readAllLines(new File(props.get("FILE2").toString()).toPath(),Charset.forName("UTF-8"));
+				namesList1 = new HashSet<String>(Files.readAllLines(new File(props.get("FILE1").toString()).toPath(),Charset.forName("UTF-8")));
+				namesList2 = new HashSet<String>(Files.readAllLines(new File(props.get("FILE2").toString()).toPath(),Charset.forName("UTF-8")));
 			} 
 			else {
 				throw new FileNotFoundException("property file '" + propFile + "' not found in the classpath");
 			}
+		} catch (FileNotFoundException e) {
+			LOG.error("file not found exception" + e );
+		} catch (IOException e) {
+			LOG.error("io exception" + e );
 		}
 		
 	}
 	
 	
-    public List<String> findMatchingStrings(){
+    public Set<String> findMatchingStrings(){
     	
 	   
-	   List<String> matchingString = new ArrayList<String>();
+	   Set<String> matchedString = new HashSet<String>();
     	for( String name : namesList1 ){
 		    if(compare(name)){
-		    	matchingString.add(name);
+		    	matchedString.add(name);
 		    }
 		}
 		
-		LOG.debug("number of matching string :" + matchingString.size());
-    	return namesList1;
+		LOG.debug("number of matching string :" + matchedString.size());
+		
+    	return matchedString;
     	
     	
     }
