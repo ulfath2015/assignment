@@ -21,8 +21,6 @@ public class FileComparatorTest {
 	@Test
 	public void getMatchStringTest() {
 
-		assertTrue(matcher.getMatchStrings(dataSource.getSourceText(), dataSource.getTargetText(), MATCHTYPE.EXACT)
-				.size() == 77);
 		assertTrue(matcher.getMatchStrings(dataSource.getSourceText(), dataSource.getTargetText(), MATCHTYPE.SIMILAR)
 				.size() > 76);
 

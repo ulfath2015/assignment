@@ -64,7 +64,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass>com.imaginea.assignment.FileComparatorRunner</mainClass>
+							<mainClass>com.imaginea.assignment.StringMatcherExecutor</mainClass>
 						</manifest>
 					</archive>
 

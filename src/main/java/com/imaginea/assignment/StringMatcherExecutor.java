@@ -13,8 +13,9 @@ public class StringMatcherExecutor {
 		int matchCount = 0;
 		DataSource dataSource = new DataSource(propFile);
 		Matcher matcher = new StringMatcher();
-		matchCount = matcher.getMatchStrings(dataSource.getSourceText(), dataSource.getTargetText(), MATCHTYPE.SIMILAR).size();
-		LOG.debug("#matched strings :" + matchCount );
+		matchCount = matcher.getMatchStrings(dataSource.getSourceText(), dataSource.getTargetText(), MATCHTYPE.SIMILAR)
+				.size();
+		LOG.debug("#Similar strings :" + matchCount);
 	}
 
 	public StringMatcherExecutor(String propFile) {
