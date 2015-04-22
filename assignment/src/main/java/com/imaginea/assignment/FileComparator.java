@@ -12,7 +12,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FileComparator 
+public class FileComparator implements ComparatorService
 {
 	private Properties props;
 	public static final Logger LOG = LoggerFactory.getLogger(FileComparator.class);
@@ -60,7 +60,7 @@ public class FileComparator
     }
 
 
-	private boolean compare(String sourceName) {
+	public boolean compare(String sourceName) {
 		
 		String[] sourceNameParts = sourceName.split(" ");
 		for( String targetName : targetNames ){
