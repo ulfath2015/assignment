@@ -1,23 +1,30 @@
 package com.imaginea.assignment;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
 public class FileComparatorTest {
 
-	FileComparator fileComparator;
+	DataSource dataSource;
+	Matcher matcher;
 
 	@Before
 	public void init() throws IOException {
-		fileComparator = new FileComparator("FileNames.properties");
+
+		dataSource = new DataSource("DataSource.properties");
+		matcher = new StringMatcher();
+
 	}
 
 	@Test
-	public void findMatchingStringsTest() {
+	public void getMatchStringTest() {
 
-		assertTrue(fileComparator.findMatchingStrings().size() > 76);
+		assertTrue(matcher.getMatchStrings(dataSource.getSourceText(), dataSource.getTargetText(), MATCHTYPE.EXACT)
+				.size() == 77);
+		assertTrue(matcher.getMatchStrings(dataSource.getSourceText(), dataSource.getTargetText(), MATCHTYPE.SIMILAR)
+				.size() > 76);
 
 	}
 }
