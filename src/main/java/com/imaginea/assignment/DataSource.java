@@ -17,46 +17,45 @@ public class DataSource {
 	private Properties props;
 	public static final Logger LOG = LoggerFactory.getLogger(DataSource.class);
 	private Set<String> sourceText;
-	private Set<String> targeText;
+	private Set<String> targetText;
 
-	public DataSource(String fileName) {
+	public DataSource() {
 
 		props = new Properties();
+	}
+	
+	void initDataSource( String fileName ) throws IOException {
+		
 		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName)) {
 
 			if (inputStream != null) {
 				props.load(inputStream);
 				sourceText = new HashSet<String>(Files.readAllLines(
 						new File(props.get("SOURCE1").toString()).toPath(), Charset.forName("UTF-8")));
-				targeText = new HashSet<String>(Files.readAllLines(
+				targetText = new HashSet<String>(Files.readAllLines(
 						new File(props.get("SOURCE2").toString()).toPath(), Charset.forName("UTF-8")));
 			}
 			else {
-				throw new FileNotFoundException("property file '" + fileName + "' not found in the classpath");
+				throw new FileNotFoundException("property file '" + fileName + "' not found");
 			}
 
-		} catch (FileNotFoundException e) {
-			LOG.error("file not found exception" + e);
-		} catch (IOException e) {
-			LOG.error("io exception" + e);
 		}
-
 	}
 
 	public Set<String> getSourceText() {
 		return sourceText;
 	}
 
-	public void setSourceNames(Set<String> sourceNames) {
-		this.sourceText = sourceNames;
+	public void setSourceNames(Set<String> sourceText) {
+		this.sourceText = sourceText;
 	}
 
 	public Set<String> getTargetText() {
-		return targeText;
+		return targetText;
 	}
 
-	public void setTargetNames(Set<String> targetNames) {
-		this.targeText = targetNames;
+	public void setTargetNames(Set<String> targetText) {
+		this.targetText = targetText;
 	}
 
 }

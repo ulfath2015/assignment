@@ -9,7 +9,7 @@ public class StringMatcher implements Matcher
 {
 	public static final Logger LOG = LoggerFactory.getLogger(StringMatcher.class);
 
-	public Set<String> getMatchStrings(Set<String> sourceText, Set<String> targetText, MATCHTYPE matchType) {
+	public Set<String> getMatchStrings(Set<String> sourceText, Set<String> targetText, MatchType matchType) {
 
 		Set<String> matchedText = new HashSet<String>();
 
@@ -26,17 +26,17 @@ public class StringMatcher implements Matcher
 
 	}
 
-	private Set<String> similarMatch(Set<String> sourceText, Set<String> targetText, Set<String> commonSet) {
+	private Set<String> similarMatch(Set<String> sourceText, Set<String> targetText, Set<String> commonText) {
 
 		for (String name : sourceText) {
 			for (String targetName : targetText) {
 				if (isMatch(name, targetName)) {
-					commonSet.add(name);
+					commonText.add(name);
 				}
 			}
 		}
 
-		return commonSet;
+		return commonText;
 	}
 
 	private Set<String> exactMatch(Set<String> sourceText, Set<String> targetText) {
@@ -48,16 +48,16 @@ public class StringMatcher implements Matcher
 
 	public boolean isMatch(String sourceText, String targetText) {
 
-		String[] sourceNameParts = sourceText.split(" ");
-		String[] targetNameParts = targetText.split(" ");
+		String[] sourceTextParts = sourceText.split(" ");
+		String[] targetTextParts = targetText.split(" ");
 		boolean result = true;
 
-		int smallerNameLength = sourceNameParts.length > targetNameParts.length ? targetNameParts.length
-				: sourceNameParts.length;
+		int smallerNameLength = sourceTextParts.length > targetTextParts.length ? targetTextParts.length
+				: sourceTextParts.length;
 
 		for (int i = 0; i < smallerNameLength; i++) {
 
-			if (!sourceNameParts[i].equalsIgnoreCase(targetNameParts[i])) {
+			if (!sourceTextParts[i].equalsIgnoreCase(targetTextParts[i])) {
 				result = false;
 				break;
 			}

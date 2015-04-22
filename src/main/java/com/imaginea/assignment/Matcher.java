@@ -4,8 +4,8 @@ import java.util.Set;
 
 public interface Matcher {
 
-	public Set<String> getMatchStrings(Set<String> sourceNames, Set<String> targetNames, MATCHTYPE matchType);
+	public Set<String> getMatchStrings(Set<String> sourceText, Set<String> targetText, MatchType matchType);
 
-	public boolean isMatch(String sourceName, String targetName);
+	public boolean isMatch(String sourceText, String targetText);
 
 }

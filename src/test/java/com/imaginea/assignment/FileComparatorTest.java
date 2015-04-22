@@ -13,7 +13,8 @@ public class FileComparatorTest {
 	@Before
 	public void init() throws IOException {
 
-		dataSource = new DataSource("DataSource.properties");
+		dataSource = new DataSource();
+		dataSource.initDataSource("DataSource.properties");
 		matcher = new StringMatcher();
 
 	}
@@ -21,7 +22,7 @@ public class FileComparatorTest {
 	@Test
 	public void getMatchStringTest() {
 
-		assertTrue(matcher.getMatchStrings(dataSource.getSourceText(), dataSource.getTargetText(), MATCHTYPE.SIMILAR)
+		assertTrue(matcher.getMatchStrings(dataSource.getSourceText(), dataSource.getTargetText(), MatchType.SIMILAR)
 				.size() > 76);
 
 	}

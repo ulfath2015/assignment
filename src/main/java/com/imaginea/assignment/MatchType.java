@@ -1,6 +1,6 @@
 package com.imaginea.assignment;
 
-public enum MATCHTYPE {
+public enum MatchType {
 
 	EXACT, SIMILAR;
 
