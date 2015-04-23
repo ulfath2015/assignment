@@ -4,30 +4,32 @@ import java.util.HashSet;
 import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.imaginea.assignment.api.Matcher;
 
 public class StringMatcher implements Matcher<String>
 {
 	public static final Logger LOG = LoggerFactory.getLogger(StringMatcher.class);
 
-	public Set<String> getMatchStrings(Set<String> sourceText, Set<String> targetText, MatchType matchType) {
-
-		Set<String> commmonText = new HashSet<String>();
+	public Set<String> getMatchStrings(Set<String> sourceText, Set<String> targetText, MatchType matchType) throws MatcherException {
 
 		switch (matchType) {
 
 			case EXACT:
-				return exactMatch(sourceText, targetText, commmonText);
+				return exactMatch(sourceText, targetText );
 
 			case SIMILAR:
-				return similarMatch(sourceText, targetText, commmonText);
+				return similarMatch(sourceText, targetText );
+			
+			default : 
+				throw new MatcherException("Invalid match type : " + matchType );
 		}
-
-		return commmonText;
 
 	}
 
-	private Set<String> similarMatch(Set<String> sourceText, Set<String> targetText, Set<String> commonText) {
+	private Set<String> similarMatch(Set<String> sourceText, Set<String> targetText) {
 
+		Set<String> commonText = new HashSet<String>();
+		
 		for (String name : sourceText) {
 			for (String targetName : targetText) {
 				if (isMatch(name, targetName)) {
@@ -39,8 +41,9 @@ public class StringMatcher implements Matcher<String>
 		return commonText;
 	}
 
-	private Set<String> exactMatch(Set<String> sourceText, Set<String> targetText, Set<String> commonText) {
-
+	private Set<String> exactMatch(Set<String> sourceText, Set<String> targetText) {
+		
+		Set<String> commonText = new HashSet<String>();
 		commonText.addAll(sourceText);
 		commonText.retainAll(targetText);
 		return commonText;
