@@ -7,13 +7,13 @@ import org.junit.Test;
 
 public class FileComparatorTest {
 
-	DataSource dataSource;
+	StringDataSource dataSource;
 	Matcher matcher;
 
 	@Before
 	public void init() throws IOException {
 
-		dataSource = new DataSource();
+		dataSource = new StringDataSource();
 		dataSource.initDataSource("DataSource.properties");
 		matcher = new StringMatcher();
 
@@ -24,6 +24,8 @@ public class FileComparatorTest {
 
 		assertTrue(matcher.getMatchStrings(dataSource.getSourceText(), dataSource.getTargetText(), MatchType.SIMILAR)
 				.size() > 76);
+		
+		assertTrue(matcher.isMatch("manish kumar pandey", "manish kumar"));
 
 	}
 }

@@ -5,24 +5,24 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StringMatcher implements Matcher
+public class StringMatcher implements Matcher<String>
 {
 	public static final Logger LOG = LoggerFactory.getLogger(StringMatcher.class);
 
 	public Set<String> getMatchStrings(Set<String> sourceText, Set<String> targetText, MatchType matchType) {
 
-		Set<String> matchedText = new HashSet<String>();
+		Set<String> commmonText = new HashSet<String>();
 
 		switch (matchType) {
 
 			case EXACT:
-				return exactMatch(sourceText, targetText);
+				return exactMatch(sourceText, targetText, commmonText);
 
 			case SIMILAR:
-				return similarMatch(sourceText, targetText, matchedText);
+				return similarMatch(sourceText, targetText, commmonText);
 		}
 
-		return matchedText;
+		return commmonText;
 
 	}
 
@@ -39,10 +39,11 @@ public class StringMatcher implements Matcher
 		return commonText;
 	}
 
-	private Set<String> exactMatch(Set<String> sourceText, Set<String> targetText) {
+	private Set<String> exactMatch(Set<String> sourceText, Set<String> targetText, Set<String> commonText) {
 
-		sourceText.retainAll(targetText);
-		return sourceText;
+		commonText.addAll(sourceText);
+		commonText.retainAll(targetText);
+		return commonText;
 
 	}
 

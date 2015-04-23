@@ -2,10 +2,10 @@ package com.imaginea.assignment;
 
 import java.util.Set;
 
-public interface Matcher {
+public interface Matcher<T> {
 
-	public Set<String> getMatchStrings(Set<String> sourceText, Set<String> targetText, MatchType matchType);
+	public Set<T> getMatchStrings(Set<T> sourceText, Set<T> targetText, MatchType matchType);
 
-	public boolean isMatch(String sourceText, String targetText);
+	public boolean isMatch(T sourceText, T targetText);
 
 }

@@ -12,11 +12,15 @@ public class StringMatcherExecutor {
 
 		String propFile = "DataSource.properties";
 		int matchCount = 0;
-		DataSource dataSource = new DataSource();
+
+		StringDataSource dataSource = new StringDataSource();
 		dataSource.initDataSource(propFile);
+
 		Matcher matcher = new StringMatcher();
+
 		matchCount = matcher.getMatchStrings(dataSource.getSourceText(), dataSource.getTargetText(), MatchType.SIMILAR)
 				.size();
+
 		LOG.debug("#Similar strings :" + matchCount);
 	}
 
