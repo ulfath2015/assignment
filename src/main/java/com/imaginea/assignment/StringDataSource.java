@@ -12,7 +12,7 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StringDataSource implements DataSource<String>{
+public class StringDataSource implements DataSource<String> {
 
 	private Properties props;
 	public static final Logger LOG = LoggerFactory.getLogger(StringDataSource.class);
@@ -23,9 +23,9 @@ public class StringDataSource implements DataSource<String>{
 
 		props = new Properties();
 	}
-	
-	public void initDataSource( String fileName ) throws IOException {
-		
+
+	public void initDataSource(String fileName) throws IOException {
+
 		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(fileName)) {
 
 			if (inputStream != null) {
@@ -42,19 +42,19 @@ public class StringDataSource implements DataSource<String>{
 		}
 	}
 
-	public Set<String> getSourceText() {
+	public Set<String> getSourceData() {
 		return sourceText;
 	}
 
-	public void setSourceNames(Set<String> sourceText) {
+	public void setSourceData(Set<String> sourceText) {
 		this.sourceText = sourceText;
 	}
 
-	public Set<String> getTargetText() {
+	public Set<String> getTargetData() {
 		return targetText;
 	}
 
-	public void setTargetNames(Set<String> targetText) {
+	public void setTargetData(Set<String> targetText) {
 		this.targetText = targetText;
 	}
 

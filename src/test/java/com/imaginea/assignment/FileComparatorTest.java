@@ -22,7 +22,7 @@ public class FileComparatorTest {
 	@Test
 	public void getMatchStringTest() {
 
-		assertTrue(matcher.getMatchStrings(dataSource.getSourceText(), dataSource.getTargetText(), MatchType.SIMILAR)
+		assertTrue(matcher.getMatchStrings(dataSource.getSourceData(), dataSource.getTargetData(), MatchType.SIMILAR)
 				.size() > 76);
 		
 		assertTrue(matcher.isMatch("manish kumar pandey", "manish kumar"));

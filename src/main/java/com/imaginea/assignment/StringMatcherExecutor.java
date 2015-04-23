@@ -18,7 +18,7 @@ public class StringMatcherExecutor {
 
 		Matcher matcher = new StringMatcher();
 
-		matchCount = matcher.getMatchStrings(dataSource.getSourceText(), dataSource.getTargetText(), MatchType.SIMILAR)
+		matchCount = matcher.getMatchStrings(dataSource.getSourceData(), dataSource.getTargetData(), MatchType.SIMILAR)
 				.size();
 
 		LOG.debug("#Similar strings :" + matchCount);
