@@ -10,18 +10,19 @@ public class StringMatcher implements Matcher<String>
 {
 	public static final Logger LOG = LoggerFactory.getLogger(StringMatcher.class);
 
-	public Set<String> getMatchStrings(Set<String> sourceText, Set<String> targetText, MatchType matchType) throws MatcherException {
+	public Set<String> getMatchStrings(Set<String> sourceText, Set<String> targetText, MatchType matchType)
+			throws MatcherException {
 
 		switch (matchType) {
 
 			case EXACT:
-				return exactMatch(sourceText, targetText );
+				return exactMatch(sourceText, targetText);
 
 			case SIMILAR:
-				return similarMatch(sourceText, targetText );
-			
-			default : 
-				throw new MatcherException("Invalid match type : " + matchType );
+				return similarMatch(sourceText, targetText);
+
+			default:
+				throw new MatcherException("Invalid match type : " + matchType);
 		}
 
 	}
@@ -29,7 +30,7 @@ public class StringMatcher implements Matcher<String>
 	private Set<String> similarMatch(Set<String> sourceText, Set<String> targetText) {
 
 		Set<String> commonText = new HashSet<String>();
-		
+
 		for (String name : sourceText) {
 			for (String targetName : targetText) {
 				if (isMatch(name, targetName)) {
@@ -42,7 +43,7 @@ public class StringMatcher implements Matcher<String>
 	}
 
 	private Set<String> exactMatch(Set<String> sourceText, Set<String> targetText) {
-		
+
 		Set<String> commonText = new HashSet<String>();
 		commonText.addAll(sourceText);
 		commonText.retainAll(targetText);

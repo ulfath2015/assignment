@@ -1,5 +1,6 @@
 package com.imaginea.assignment;
 
+import java.io.File;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,33 +10,46 @@ public class StringMatcherExecutor {
 
 	public static final Logger LOG = LoggerFactory.getLogger(StringMatcherExecutor.class);
 
-	public static void main(String args[]) throws IOException, MatcherException {
+	public static void main(String args[]) throws IOException {
 
-		String sourceFile = "src/main/resources/File1.txt";
-		String targetFile = "src/main/resources/File2.txt";
+		StringDataSource sourceData = new StringDataSource();
+		StringDataSource targetData = new StringDataSource();
+
+		String sourceFile = "/File1.txt";
+		String targetFile = "/File2.txt";
+
+		int matchCount = 0;
+
 		if (args.length == 2) {
 
 			sourceFile = args[0];
 			targetFile = args[1];
+			sourceData.initDataSource(new File(sourceFile));
+			targetData.initDataSource(new File(targetFile));
 		}
 
-		int matchCount = 0;
-		StringDataSource sourceData = new StringDataSource();
-		sourceData.initDataSource(sourceFile);
+		else {
 
-		StringDataSource targetData = new StringDataSource();
-		targetData.initDataSource(targetFile);
+			sourceData.initDataSource(sourceFile);
+			targetData.initDataSource(targetFile);
+
+		}
 
 		Matcher<String> matcher = new StringMatcher();
-		
-		matchCount = matcher.getMatchStrings(sourceData.getData(), targetData.getData(), MatchType.EXACT).size();
 
-		LOG.debug("#Exact match strings :" + matchCount);
+		try {
+			matchCount = matcher.getMatchStrings(sourceData.getData(), targetData.getData(), MatchType.EXACT).size();
 
-		matchCount = matcher.getMatchStrings(sourceData.getData(), targetData.getData(), MatchType.SIMILAR).size();
+			LOG.debug("#Exact match strings :" + matchCount);
 
-		LOG.debug("#Similar strings :" + matchCount);
-		
+			matchCount = matcher.getMatchStrings(sourceData.getData(), targetData.getData(), MatchType.SIMILAR).size();
+
+			LOG.debug("#Similar strings :" + matchCount);
+
+		} catch (MatcherException e) {
+
+			LOG.error(e.getMessage());
+		}
 	}
 
 }
